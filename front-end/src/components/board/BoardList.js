@@ -1,6 +1,6 @@
 //BoardList.js
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { boardList, boardListAfter } from '../../store/actions/BoardAction';
 import { Navbar, Nav, NavDropdown, Jumbotron, Button } from 'react-bootstrap';
@@ -14,7 +14,8 @@ import './BoardList.css';
 import Loading from '../shared/CustomLoading';
 import '../shared/loading.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
+
+
 
 function BoardList() {
 	const boardStore = useSelector((state) => state.boardReducer);
@@ -106,6 +107,7 @@ function BoardList() {
 
 	return (
 		<>
+	
 			{selected === 1 ? (
 				<>
 					{loading ? (
@@ -149,12 +151,9 @@ function BoardList() {
 									alignItems="center"
 								>
 									{boards.map((item, index) => {
+										
 										return (
-											<div>
-												<Link to="/board/:id">
-													<BoardCard item={item} key={index} />
-												</Link>
-											</div>
+											<BoardCard item={item} key={index} />	
 										);
 									})}
 								</Grid>
@@ -215,6 +214,7 @@ function BoardList() {
 					)}
 				</>
 			)}
+			
 		</>
 	);
 }
