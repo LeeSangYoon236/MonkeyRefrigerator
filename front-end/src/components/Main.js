@@ -15,6 +15,7 @@ import Icon from "@mdi/react";
 import Box from "@mui/material/Box";
 //Login
 import { Login } from "./user/Login";
+import BoardDetail from "./board/BoardDetail";
 
 function Main() {
   return (
@@ -32,7 +33,7 @@ function Main() {
               <Login />
             </Route>
             <Route path="/board/:id">
-              <Login />
+              <BoardDetail />
             </Route>
           </Switch>
         </div>
