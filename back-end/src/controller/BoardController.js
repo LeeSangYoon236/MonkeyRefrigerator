@@ -75,14 +75,14 @@ module.exports = {
 
       if (boardDetail === undefined) {
         return res.json(
-          response.successFalse(1002, "전체 게시물 목록이 없습니다.")
+          response.successFalse(1002, "선택한 게시물이 없습니다.")
         );
       }
 
       return res.json(
         response.successTrue(
           2001,
-          "전체 게시물 첫번째 목록 조회에 성공하였습니다.",
+          "선택한 게시물 조회에 성공하였습니다.",
           boardDetail
         )
       );

@@ -88,41 +88,46 @@ module.exports = {
 
   selectBoardDetail: async function (id) {
     try {
-      const query = `select b.id,
-                            b.title,
-                            b.subtitle,
-                            b.content,
-                            b.difficulty,
-                            b.cookTime,
-                            b.subMaterial,
-                            b.tagName,
-                            b.viewCount,
+      const query =
+        `select b.id, b.title, b.subtitle, b.content, b.difficulty,
+                            b.cookTime, b.subMaterial, b.tagName, b.viewCount,
                             date_format(b.modifiedAt,'%Y-%m-%d') as modifiedAt,
-                            u.nickname,
-                            u.profileImg,
-                            m.keyName,
-                            c.name  category,
-                            bi.path boardImgPath
+                            u.nickname, u.profileImg, c.name category
                            from board b
                                     join useraccount u on b.userId = u.id
                                     join category c on b.categoryId = c.id
-                                    left join boardImage bi on b.id = bi.boardId
-                                    join boardgetmaterial bgm on b.id =  bgm.boardId
-                                    join material_r m on bgm.materialId = m.id
-                           where b.id = ?
-                           order by b.id;`;
+                           where b.id = ?;` +
+        `select bi.path boardImgPath
+                    from board b
+                        left join boardImage bi on b.id = bi.boardId
+                    where b.id = ?;` +
+        `select m.keyName
+                    from board b
+                        join boardgetmaterial bgm on b.id =  bgm.boardId
+                        join material_r m on bgm.materialId = m.id
+                    where b.id = ?;` +
+        `update board
+                     set viewCount = viewCount + 1
+                     where id = ?;`;
+
+      // const query2 = `select b.id,
+
       const params = [id];
-      console.log(params);
       const connection = await pool.getConnection(async (conn) => conn);
-      const [rows] = await connection.query(query, params);
+      const [rows] = await connection.query(query, [
+        params,
+        params,
+        params,
+        params,
+      ]);
+      // const [rows2] = await connection.query(query2, params);
       connection.release();
-      // console.log(rows);
       return rows;
     } catch (err) {
       return res.json(
         response.successFalse(
           3001,
-          "데이터베이스 연결에 실패하였습니다. BoardDao error - selectBoardList"
+          "데이터베이스 연결에 실패하였습니다. BoardDao error - selectBoardDetail"
         )
       );
     }
